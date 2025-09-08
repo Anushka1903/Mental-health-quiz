@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Scanner - Mental Health Quiz</title>
+  <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      color: #333;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    #reader {
+      width: 300px;
+      max-width: 90%;
+      border: 2px solid #007acc;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #007acc;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    a:hover {
+      background: #005f99;
+    }
+  </style>
+</head>
+<body>
+  <h2>Scan QR Code to Open Mental Health Quiz</h2>
+  <div id="reader"></div>
+  <div id="result"></div>
+
+  <script>
+    function onScanSuccess(decodedText) {
+      document.getElementById("result").innerHTML = 
+        `✅ QR Code Detected!<br><a href="${decodedText}" target="_blank">Open Quiz</a>`;
+
+      // Automatically open the quiz after 2 seconds
+      setTimeout(() => {
+        window.location.href = decodedText;
+      }, 2000);
+    }
+
+    function onScanFailure(error) {
+      console.warn(`Scan error: ${error}`);
+    }
+
+    let html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+  </script>
+</body>
+</html>
